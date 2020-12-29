@@ -2,6 +2,27 @@
   text-align: center;
 }
 
+.avatar {
+  vertical-align: middle;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+
+.logout_btn {
+  background-color: #6b79b9;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 10px 2px;
+  cursor: pointer;
+  border-radius: 10%;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

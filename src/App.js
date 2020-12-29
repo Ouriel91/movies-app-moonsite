@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { useState, useEffect } from 'react'
 import './App.css'
 import firebase from 'firebase'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
@@ -9,12 +9,19 @@ firebase.initializeApp({
   authDomain: "movies-app-850c0.firebaseapp.com"
 })
 
-export class App extends Component {
+function App() {
 
-  state = { isSignedIn: false }
+  //states
+  const [isSignedIn, setIsSignedIn] = useState(false)
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(user =>
+      setIsSignedIn(!!user)  //if user is object make isSignedIn to true and opposite
+    )
+  })
 
   //firebase ui for sign in buttons
-  uiConfig = {
+  const uiConfig = {
     signInFlow: "popup",
     signInOptions: [
       firebase.auth.GoogleAuthProvider.PROVIDER_ID,
@@ -25,50 +32,46 @@ export class App extends Component {
     }
   }
 
-  componentDidMount = () => {
-    
-    //when component rendered check if user is logged in
-    firebase.auth().onAuthStateChanged(user => {
-      this.setState({
-        isSignedIn: !!user //if user is object make isSignedIn to true and opposite
-      })
-      console.log("user", user)
-    })
-  }
-
-  render() {
-    const stam = (<p>סתם</p>) //default for name and image
-    return (
-      <div className="App">
-        {
-          this.state.isSignedIn ?
-            (
-              <div>
-                <span>
-                  <h1>welcome {firebase.auth().currentUser.displayName}</h1>
-                  <img
-                    referrerpolicy="no-referrer"
-                    alt="profile pic"
-                    src={firebase.auth().currentUser.photoURL}
-                  />
-                </span>
-                <button onClick={() => firebase.auth().signOut()}>Sign Out</button>
-              </div>
-            )
-            :
-            (
-              <div>
-                {stam}
-                <StyledFirebaseAuth
-                  uiConfig={this.uiConfig}
-                  firebaseAuth={firebase.auth()}
-                />
-              </div>
-            )
+  const profile = (
+    <div className="">
+      <h1>Welcome {isSignedIn ? firebase.auth().currentUser.displayName : "To you"}</h1>
+      <img
+        src={isSignedIn ?
+          firebase.auth().currentUser.photoURL
+          :
+          "https://upload.wikimedia.org/wikipedia/commons/7/7c/Profile_avatar_placeholder_large.png"
         }
-      </div>
-    )
-  }
+        alt="Avatar"
+        className="avatar"
+      />
+    </div>
+  )
+
+  const buttonsLoginOrNot =
+    isSignedIn ?
+      (
+        <div>
+          <button 
+            className="logout_btn"
+            onClick={() => firebase.auth().signOut()}>Sign Out</button>
+        </div>
+      )
+      :
+      (
+        <div>
+          <StyledFirebaseAuth
+            uiConfig={uiConfig}
+            firebaseAuth={firebase.auth()}
+          />
+        </div>
+      )
+
+  return (
+    <div className="App">
+      {profile}
+      {buttonsLoginOrNot}
+    </div>
+  )
 }
 
 export default App
