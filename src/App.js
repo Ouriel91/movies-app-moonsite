@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import MovieList from './components/MovieList'
 import './App.css'
 import firebase from 'firebase'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
@@ -9,16 +10,32 @@ firebase.initializeApp({
   authDomain: "movies-app-850c0.firebaseapp.com"
 })
 
+//API variables
+const API_KEY = "682b51252cb78ef7b412fe0c472e082b"
+const MOVIE_API = "https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key="
+  + API_KEY + "&language=en-US&page=1"
+const IMAGES = "https://image.tmdb.org/t/p/w1280/"
+
+
 function App() {
 
   //states
   const [isSignedIn, setIsSignedIn] = useState(false)
+  const [movies, setMovies] = useState([])
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user =>
       setIsSignedIn(!!user)  //if user is object make isSignedIn to true and opposite
     )
   })
+
+  useEffect(() => {
+    fetch(MOVIE_API)
+      .then(response => response.json())
+      .then(data => {
+        setMovies(data.results)
+      })
+  }, [])
 
   //firebase ui for sign in buttons
   const uiConfig = {
@@ -33,7 +50,7 @@ function App() {
   }
 
   const profile = (
-    <div className="">
+    <div>
       <h1>Welcome {isSignedIn ? firebase.auth().currentUser.displayName : "To you"}</h1>
       <img
         src={isSignedIn ?
@@ -50,8 +67,8 @@ function App() {
   const buttonsLoginOrNot =
     isSignedIn ?
       (
-        <div>
-          <button 
+        <div className="">
+          <button
             className="logout_btn"
             onClick={() => firebase.auth().signOut()}>Sign Out</button>
         </div>
@@ -66,10 +83,21 @@ function App() {
         </div>
       )
 
+  const showMoviesList = isSignedIn ? movies.length > 0 && movies.map(movie => (
+    <MovieList 
+      key={movie.id}
+      data={movie}
+      image_api={IMAGES}
+    />
+  )) : null
+
   return (
-    <div className="App">
-      {profile}
-      {buttonsLoginOrNot}
+    <div>
+      <div className="centering_content">
+        {profile}
+        {buttonsLoginOrNot}
+      </div>
+      {showMoviesList}
     </div>
   )
 }
