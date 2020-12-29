@@ -6,9 +6,10 @@ import './MovieList.css'
                 poster={image_api + data.poster_path}
                 overview={data.overview}
                 vote_average={data.vote_average} */
-function MovieList({ data, image_api }) {
+function MovieList({ data, image_api,selectMovie }) {
+
     return (
-        <a href="#" className="movie" onClick={() => console.log()}>
+        <a href="#" className="movie" onClick={() => selectMovie(data.id)}>
             {data.original_title}
         </a>
     )
