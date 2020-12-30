@@ -4,6 +4,7 @@ import Movie from './components/Movie'
 import './App.css'
 import firebase from 'firebase'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
+import FavPopup from './components/FavPopup'
 
 //firebase init to google and facebook authentication
 firebase.initializeApp({
@@ -24,7 +25,7 @@ function App() {
   const [isSignedIn, setIsSignedIn] = useState(false)
   const [movies, setMovies] = useState([])
   const [selectedMovie, setSelectedMovie] = useState(null)
-  const [favMovie, setFavMovie] = useState([])
+  const [favMovies, setFavMovies] = useState([])
   const [showPopup, setShowPopup] = useState(false)
 
   useEffect(() => {
@@ -49,25 +50,25 @@ function App() {
 
   const addFavoriteMovie = (movieId) => {
     //if movie exist in favorits, don't add it again
-    const existingMovie = favMovie.find(id => id === movieId)
+    const existingMovie = favMovies.find(id => id === movieId)
     if (existingMovie) {
       return
     }
     //add movie to favorits (in new array)
     const movie = movies.find(movie => movie.id === movieId)
-    const movieArr = [...favMovie]
+    const movieArr = [...favMovies]
     movieArr.push(movie.id)
-    setFavMovie(movieArr)
+    setFavMovies(movieArr)
   }
 
   const removeFavoriteMovie = (movieId) => {
-    const movieArr = favMovie.filter(id => id !== movieId)
+    const movieArr = favMovies.filter(id => id !== movieId)
     console.log('rem2',movieArr)
-    setFavMovie(movieArr)
+    setFavMovies(movieArr)
   }
 
   const favoriteHandler = (movieId) => {
-    const existingMovie = favMovie.find(id => id === movieId)
+    const existingMovie = favMovies.find(id => id === movieId)
     if (existingMovie) {
       console.log('rem1',movieId)
       removeFavoriteMovie(movieId)
@@ -77,12 +78,16 @@ function App() {
   }
 
   const isInFavorite = (movieId) => {
-    const existingMovie = favMovie.find(id => id === movieId)
+    const existingMovie = favMovies.find(id => id === movieId)
     if (existingMovie) {
       return true
     }
 
     return false
+  }
+
+  const togglePopup = () => {
+    setShowPopup(prevValue => !prevValue)
   }
 
   //firebase ui for sign in buttons
@@ -149,11 +154,17 @@ function App() {
         {buttonsLoginOrNot}
       </div>
       <div>
-        wishlist:{favMovie.length}
+        wishlist:{favMovies.length}
         <button 
-          disabled={favMovie.length === 0} 
-          onClick={() => setShowPopup(prevValue => !prevValue)}>show favorits</button>
-          {showPopup && 'list'}
+          disabled={favMovies.length === 0} 
+          onClick={togglePopup}>show favorits</button>
+          {showPopup && <FavPopup 
+            image_api={IMAGES}
+            favMovies={movies.filter(movie => {
+              if(favMovies.includes(movie.id))
+                return movie
+            } )}
+            togglePopup={togglePopup}/>}
       </div>
       <div className="movies_container">
         <div>

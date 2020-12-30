@@ -1,8 +1,7 @@
 import React from 'react'
-import Movie from './Movie'
 import './MovieItem.css'
 
-function MovieList({ data, selectMovie }) {
+function MovieItem({ data, selectMovie }) {
 
     return (
         <div className="movie_item_container">
@@ -13,4 +12,4 @@ function MovieList({ data, selectMovie }) {
     )
 }
 
-export default MovieList
+export default MovieItem

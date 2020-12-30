@@ -1,0 +1,13 @@
+.open-button {
+    background-color: #555;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.8;
+    position: fixed;
+    left: 30vw;
+    top: 20vh;
+    width: 280px;
+    display: block;
+  }
