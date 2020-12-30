@@ -1,0 +1,14 @@
+.movie_item_container{
+    margin: 5px;
+    width: 20vw;
+    padding: 20px;
+    text-align: center;
+    background-color: black;
+}
+.movie{
+    color: white;
+    font-size: 32px;
+    font-weight: bold;
+    text-decoration: none;
+    font-family: "Poppins, sans-serif";
+}

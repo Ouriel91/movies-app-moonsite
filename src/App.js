@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import MovieList from './components/MovieList'
+import MovieItem from './components/MovieItem'
 import Movie from './components/Movie'
 import './App.css'
 import firebase from 'firebase'
@@ -41,15 +41,18 @@ function App() {
   }, [])
 
   const selectMovie = (movieId) => {
+    //find movie by id to render the Movie component when click on movie in MovieItem component
     const movie = movies.find(movie => movie.id === movieId)
     setSelectedMovie(movie)
   }
 
   const addFavoriteMovie = (movieId) => {
+    //if movie exist in favorits, don't add it again
     const existingMovie = favMovie.find(id => id === movieId)
-    if(existingMovie){
+    if (existingMovie) {
       return
     }
+    //add movie to favorits (in new array)
     const movie = movies.find(movie => movie.id === movieId)
     const movieArr = [...favMovie]
     movieArr.push(movie.id)
@@ -104,12 +107,11 @@ function App() {
           />
         </div>
       )
-
+  //show movies if user logged in, pass all the movies, and the selected one to MovieItem component
   const showMoviesList = isSignedIn ? movies.length > 0 && movies.map(movie => (
-    <MovieList
+    <MovieItem
       key={movie.id}
       data={movie}
-      image_api={IMAGES}
       selectMovie={selectMovie}
     />
   )) : null
@@ -120,11 +122,18 @@ function App() {
         {profile}
         {buttonsLoginOrNot}
       </div>
-      {showMoviesList}
-      {selectedMovie !== null ? <Movie 
-        movie={selectedMovie} 
-        image_api={IMAGES}
-        favMovie={addFavoriteMovie} /> : null}
+      <div className="movies_container">
+        <div>
+          {showMoviesList}
+        </div>
+        {/*if movie selected add show it, also if the movie added to favorits add it to favorits*/}
+        <div>
+          {selectedMovie !== null ? <Movie
+            movie={selectedMovie}
+            image_api={IMAGES}
+            favMovie={addFavoriteMovie} /> : null}
+        </div>
+      </div>
     </div>
   )
 }
