@@ -25,6 +25,7 @@ function App() {
   const [movies, setMovies] = useState([])
   const [selectedMovie, setSelectedMovie] = useState(null)
   const [favMovie, setFavMovie] = useState([])
+  const [showPopup, setShowPopup] = useState(false)
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user =>
@@ -57,6 +58,31 @@ function App() {
     const movieArr = [...favMovie]
     movieArr.push(movie.id)
     setFavMovie(movieArr)
+  }
+
+  const removeFavoriteMovie = (movieId) => {
+    const movieArr = favMovie.filter(id => id !== movieId)
+    console.log('rem2',movieArr)
+    setFavMovie(movieArr)
+  }
+
+  const favoriteHandler = (movieId) => {
+    const existingMovie = favMovie.find(id => id === movieId)
+    if (existingMovie) {
+      console.log('rem1',movieId)
+      removeFavoriteMovie(movieId)
+      return
+    }
+    addFavoriteMovie(movieId)
+  }
+
+  const isInFavorite = (movieId) => {
+    const existingMovie = favMovie.find(id => id === movieId)
+    if (existingMovie) {
+      return true
+    }
+
+    return false
   }
 
   //firebase ui for sign in buttons
@@ -122,6 +148,13 @@ function App() {
         {profile}
         {buttonsLoginOrNot}
       </div>
+      <div>
+        wishlist:{favMovie.length}
+        <button 
+          disabled={favMovie.length === 0} 
+          onClick={() => setShowPopup(prevValue => !prevValue)}>show favorits</button>
+          {showPopup && 'list'}
+      </div>
       <div className="movies_container">
         <div>
           {showMoviesList}
@@ -131,7 +164,8 @@ function App() {
           {selectedMovie !== null ? <Movie
             movie={selectedMovie}
             image_api={IMAGES}
-            favMovie={addFavoriteMovie} /> : null}
+            favMovie={favoriteHandler}
+            isInFavorite={isInFavorite(selectedMovie.id)} /> : null}
         </div>
       </div>
     </div>
