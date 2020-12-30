@@ -1,18 +1,26 @@
 .movie_container{
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-    width: 100%;
+    width: 60vw;
     padding: 10px; 
+    margin-left: 10px;
 }
 .movie_details{
     padding: 2px 16px;
 }
 
 .movie_poster{
-    width: inherit;
+    width: 100%;
+    height: 70vh;
+    justify-content: center;
+    align-items: center;
 }
 
 .details_container{
     display: flex; 
     align-items: center;
+}
+
+.overview{
+    width: 80%;
 }

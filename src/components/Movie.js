@@ -11,10 +11,10 @@ function Movie(props) {
             <div className="movie_details">
                 <div className="details_container">
                     <h1>{title}</h1>
-                    <p style={{alignItems:'flex-end'}}><b>{vote_average}</b></p>
+                    <p><b>{vote_average}</b></p>
                 </div>
                 <div className="details_container">
-                    <p>{overview}</p>
+                    <p className="overview">{overview}</p>
                     <button onClick={() => favMovie(id)}>+</button>
                 </div>
             </div>
