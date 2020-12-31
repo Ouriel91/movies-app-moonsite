@@ -63,14 +63,14 @@ function App() {
 
   const removeFavoriteMovie = (movieId) => {
     const movieArr = favMovies.filter(id => id !== movieId)
-    console.log('rem2',movieArr)
+    console.log('rem2', movieArr)
     setFavMovies(movieArr)
   }
 
   const favoriteHandler = (movieId) => {
     const existingMovie = favMovies.find(id => id === movieId)
     if (existingMovie) {
-      console.log('rem1',movieId)
+      console.log('rem1', movieId)
       removeFavoriteMovie(movieId)
       return
     }
@@ -153,19 +153,22 @@ function App() {
         {profile}
         {buttonsLoginOrNot}
       </div>
-      <div>
-        wishlist:{favMovies.length}
-        <button 
-          disabled={favMovies.length === 0} 
-          onClick={togglePopup}>show favorits</button>
-          {showPopup && <FavPopup 
+      {isSignedIn ? (
+        <div>
+          wishlist:{favMovies.length}
+          <button
+            disabled={favMovies.length === 0}
+            onClick={togglePopup}>show favorits</button>
+          {showPopup && <FavPopup
             image_api={IMAGES}
             favMovies={movies.filter(movie => {
-              if(favMovies.includes(movie.id))
+              if (favMovies.includes(movie.id))
                 return movie
-            } )}
-            togglePopup={togglePopup}/>}
-      </div>
+            })}
+            togglePopup={togglePopup} />}
+        </div>
+      ) : null}
+
       <div className="movies_container">
         <div>
           {showMoviesList}
