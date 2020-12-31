@@ -1,6 +1,7 @@
 import React from 'react'
 import './Movie.css'
 
+//show single movie after clicking on movie name on movie list
 function Movie(props) {
     const { image_api, favMovie, isInFavorite, movie } = props //other props that passed to this component
 

@@ -1,3 +1,8 @@
+html {
+  background-image: url('components/images/wood.jpg');
+  
+}
+
 .centering_content{
   text-align: center;
 }

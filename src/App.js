@@ -28,12 +28,14 @@ function App() {
   const [favMovies, setFavMovies] = useState([])
   const [showPopup, setShowPopup] = useState(false)
 
+  //get the current signed in user
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user =>
       setIsSignedIn(!!user)  //if user is object make isSignedIn to true and opposite
     )
   })
 
+  //fetch movies from api
   useEffect(() => {
     fetch(MOVIE_API)
       .then(response => response.json())
@@ -54,7 +56,7 @@ function App() {
     if (existingMovie) {
       return
     }
-    //add movie to favorits (in new array)
+    //add movie to favorits, find it by id and add it to favorits array (array with only id's)
     const movie = movies.find(movie => movie.id === movieId)
     const movieArr = [...favMovies]
     movieArr.push(movie.id)
@@ -62,30 +64,32 @@ function App() {
   }
 
   const removeFavoriteMovie = (movieId) => {
+    //return the array without the removed movie
     const movieArr = favMovies.filter(id => id !== movieId)
-    console.log('rem2', movieArr)
     setFavMovies(movieArr)
   }
 
+  //manage the add/remove favorite movie. check in favorite array (only with id's)
+  //if the movie exist - remove it, otherwise add it
   const favoriteHandler = (movieId) => {
     const existingMovie = favMovies.find(id => id === movieId)
     if (existingMovie) {
-      console.log('rem1', movieId)
       removeFavoriteMovie(movieId)
       return
     }
     addFavoriteMovie(movieId)
   }
 
+  //help us to show if the button is to add/remove favorits (one button only)
   const isInFavorite = (movieId) => {
     const existingMovie = favMovies.find(id => id === movieId)
     if (existingMovie) {
       return true
     }
-
     return false
   }
 
+  //open/close popup with list of favorits movies
   const togglePopup = () => {
     setShowPopup(prevValue => !prevValue)
   }
@@ -102,6 +106,7 @@ function App() {
     }
   }
 
+  //show text and image of loggen in/out profile 
   const profile = (
     <div>
       <h1>Welcome {isSignedIn ? firebase.auth().currentUser.displayName : "To you"}</h1>
@@ -117,6 +122,7 @@ function App() {
     </div>
   )
 
+  //show the button to logged in/out profile
   const buttonsLoginOrNot =
     isSignedIn ?
       (
@@ -155,13 +161,16 @@ function App() {
       </div>
       {isSignedIn ? (
         <div>
+          {/*if user is signed in show him his wishlist and list of movie wishlist by popup*/}
           wishlist:{favMovies.length}
           <button
             disabled={favMovies.length === 0}
             onClick={togglePopup}>show favorits</button>
           {showPopup && <FavPopup
             image_api={IMAGES}
-            favMovies={movies.filter(movie => {
+            favMovies={movies.filter(movie => { 
+              //compare between movie array and favorites array (if it's the same id), 
+              //and return all of favorits movie to favMovie component
               if (favMovies.includes(movie.id))
                 return movie
             })}

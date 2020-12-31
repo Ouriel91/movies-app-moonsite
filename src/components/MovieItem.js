@@ -1,6 +1,7 @@
 import React from 'react'
 import './MovieItem.css'
 
+//show list of movies with highest popularity (from api request)
 function MovieItem({ data, selectMovie }) {
 
     return (
