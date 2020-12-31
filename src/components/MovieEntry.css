@@ -1,0 +1,11 @@
+.movie_entry_row{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    
+}
+
+.movie_entry_row > h1{
+    margin-left: 10px;
+    margin-top: 0;
+}

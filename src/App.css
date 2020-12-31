@@ -1,6 +1,5 @@
 html {
   background-image: url('components/images/wood.jpg');
-  
 }
 
 .centering_content{
@@ -31,6 +30,43 @@ html {
   flex: 1;
   display: flex;
 }
+
+.wishlist {
+  border-color: #e7e7e7;
+  color: black;
+}
+
+.wishlist:hover {
+  background: #e7e7e7;
+  color: black;
+}
+
+.column {
+  float: left;
+  width: 20vw;
+  margin: 0 10px;
+  padding: 0 5px;
+}
+
+.row {
+  margin: 0;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.card {
+  box-shadow: 0 4px 8px 0 rgba(236, 138, 46, 0.2);
+  padding: 16px;
+  text-align: center;
+  background-color: rgb(224, 177, 46);
+  color: white;
+}
+
+.fa {font-size:50px;}
 
 
 

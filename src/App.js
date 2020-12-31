@@ -4,6 +4,8 @@ import Movie from './components/Movie'
 import './App.css'
 import firebase from 'firebase'
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from '@fortawesome/free-solid-svg-icons'
 import FavPopup from './components/FavPopup'
 
 //firebase init to google and facebook authentication
@@ -160,15 +162,23 @@ function App() {
         {buttonsLoginOrNot}
       </div>
       {isSignedIn ? (
-        <div>
+        <div style={{ marginLeft: '1px' }}>
+          <div className="row">
+            <div className="column">
+              <div className="card">
+                <FontAwesomeIcon icon={faStar} />
+                <h3>wishlist: {favMovies.length}</h3>
+                <button
+                  className="wishlist"
+                  disabled={favMovies.length === 0}
+                  onClick={togglePopup}>show favorits</button>
+              </div>
+            </div>
+          </div>
           {/*if user is signed in show him his wishlist and list of movie wishlist by popup*/}
-          wishlist:{favMovies.length}
-          <button
-            disabled={favMovies.length === 0}
-            onClick={togglePopup}>show favorits</button>
           {showPopup && <FavPopup
             image_api={IMAGES}
-            favMovies={movies.filter(movie => { 
+            favMovies={movies.filter(movie => {
               //compare between movie array and favorites array (if it's the same id), 
               //and return all of favorits movie to favMovie component
               if (favMovies.includes(movie.id))

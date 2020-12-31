@@ -11,9 +11,11 @@ function Movie(props) {
             <div className="movie_details">
                 <div className="details_container">
                     <h1>{movie.title}</h1>
-                    <p style={{ color: 'gold', fontSize: '24px' }}>
-                        <b>{movie.vote_average}</b>
-                    </p>
+                    <div className="card">
+                        <p style={{ color: 'gold', fontSize: '24px' }}>
+                            <b>{movie.vote_average}</b>
+                        </p>
+                    </div>
                 </div>
                 <div className="details_container">
                     <p className="overview">{movie.overview}</p>
