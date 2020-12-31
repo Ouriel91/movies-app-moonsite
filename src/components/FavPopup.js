@@ -7,7 +7,7 @@ function FavPopup(props) {
     console.log(props.favMovies)
     return (
         <div title="close" className="open-button">
-            <div><span onClick={props.togglePopup}>X</span></div>
+            <div style={{marginBottom:'8px'}}><span onClick={props.togglePopup}>X</span></div>
             <div>
                 {props.favMovies.map(favMovie => <MovieEntry
                     key={favMovie.id}

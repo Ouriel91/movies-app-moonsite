@@ -12,7 +12,7 @@ function Movie(props) {
                 <div className="details_container">
                     <h1>{movie.title}</h1>
                     <div className="card">
-                        <p style={{ color: 'gold', fontSize: '24px' }}>
+                        <p style={{ color: 'gold', fontSize: '16px' }}>
                             <b>{movie.vote_average}</b>
                         </p>
                     </div>

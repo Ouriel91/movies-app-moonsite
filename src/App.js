@@ -162,7 +162,7 @@ function App() {
         {buttonsLoginOrNot}
       </div>
       {isSignedIn ? (
-        <div style={{ marginLeft: '1px' }}>
+        <div style={{ marginLeft: '1px', marginBottom: '10px'}}>
           <div className="row">
             <div className="column">
               <div className="card">
